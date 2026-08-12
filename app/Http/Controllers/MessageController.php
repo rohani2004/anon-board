@@ -2,15 +2,34 @@
 
 namespace App\Http\Controllers; 
 
+use App\Models\Message; 
+use Illuminate\Http\Request; 
+
 class MessageController extends Controller 
 {
-    public function about()
+    public function index()
     {
-             // Data dummy sementara. Diganti data database pada Pertemuan 3. 
-             $messages = [
-                ['content' => 'Semangat buat semua peserta Skill Up Class!', 'time' => '2 menit lalu'],
-                ['content' => 'Materi Laravel ternyata seru juga ya.', 'time' => '5 menit lalu'],
-                ['content' => 'Halo, ini pesan anonim pertama saya.', 'time' => '10 menit lalu'],
-            ];
-            return view('about');
-}
+             // Ambil semua pesan, terbaru di atas. 
+             $messages = Message::latest()->get();
+
+            return view('home', ['messages' => $messages]);
+    }
+
+    public function destroy(Message $message) 
+    {
+        $message->delete();
+
+        return redirect()->route('messages.index')->with('success', 'Pesan berhasil dihapus!');
+    }
+        // Validasi: pesan wajib diisi, maksimal 500 karakter. 
+        $validated = $request->validate([
+            'content' => 'required|max:500',
+        ]);
+
+        message::create($validated);
+
+        return redirect()->route('messages.index')->with('success', 'Pesan berhasil dikirim!');
+    }
+    {
+        return view('about');
+    }
