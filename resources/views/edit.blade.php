@@ -18,7 +18,6 @@
             <button type="submit" class="bg-gray-900 text-white px-4 py-2 rounded-lg mt-2">
                 Simpan
             </button>
-                simpan ya okay
         </form>
     </div>
 @endsection
